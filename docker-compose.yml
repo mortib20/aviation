@@ -1,0 +1,106 @@
+services:
+  readsb:
+    build: images/readsb
+    container_name: readsb
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - UUID=${AV_READSB_UUID}
+      - DEVICE=${AV_READSB_DEVICE}
+      - LAT=${AV_LAT}
+      - LON=${AV_LON}
+      - FEEDS=${AV_READSB_FEEDS}
+      - EXTRA=${AV_READSB_EXTRA}
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    volumes:
+      - ${AV_READSB_DIR}:/readsb
+
+
+
+  ## From here its all mlat
+
+  mlat-adsblol:
+    #build: ./images/mlat-client/
+    image: mlat-client:latest
+    container_name: mlat-adsblol
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+    - readsb
+    environment:
+      - LAT=$AV_LAT
+      - LON=$AV_LON
+      - ALT=$AV_ALT
+      - ID=$AV_STATION
+      - INPUT=127.0.0.1:30005
+      - SERVER=$MLAT_ADSBLOL
+      - RESULTS=beast,connect,127.0.0.1:30004
+
+  mlat-adsbfi:
+    #build: ./images/mlat-client/
+    image: mlat-client:latest
+    container_name: mlat-adsbfi
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+    - readsb
+    environment:
+      - LAT=$AV_LAT
+      - LON=$AV_LON
+      - ALT=$AV_ALT
+      - ID=$AV_STATION
+      - INPUT=127.0.0.1:30005
+      - SERVER=$MLAT_ADSBFI
+      - RESULTS=beast,connect,127.0.0.1:30004
+
+  mlat-adsbone:
+    #build: ./images/mlat-client/
+    image: mlat-client:latest
+    container_name: mlat-adsbone
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+    - readsb
+    environment:
+      - LAT=$AV_LAT
+      - LON=$AV_LON
+      - ALT=$AV_ALT
+      - ID=$AV_STATION
+      - INPUT=127.0.0.1:30005
+      - SERVER=$MLAT_ADSBONE
+      - RESULTS=beast,connect,127.0.0.1:30004
+
+  mlat-adsbplsp:
+    #build: ./images/mlat-client/
+    image: mlat-client:latest
+    container_name: mlat-adsbplsp
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+    - readsb
+    environment:
+      - LAT=$AV_LAT
+      - LON=$AV_LON
+      - ALT=$AV_ALT
+      - ID=$AV_STATION
+      - INPUT=127.0.0.1:30005
+      - SERVER=$MLAT_ADSBPLSP
+      - RESULTS=beast,connect,127.0.0.1:30004
+
+  mlat-adsbx:
+    #build: ./images/mlat-client/
+    image: mlat-client:latest
+    container_name: mlat-adsbx
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+    - readsb
+    environment:
+      - LAT=$AV_LAT
+      - LON=$AV_LON
+      - ALT=$AV_ALT
+      - ID=$AV_STATION
+      - INPUT=127.0.0.1:30005
+      - SERVER=$MLAT_ADSBX
+      - RESULTS=beast,connect,127.0.0.1:30004

@@ -16,7 +16,20 @@ services:
     volumes:
       - ${AV_READSB_DIR}:/readsb
 
-
+  fr24feed:
+    #build: images/fr24feed
+    image: fr24feed:latest
+    container_name: fr24feed
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      - readsb
+    volumes:
+      - ./fr24feed.ini:/etc/fr24feed.ini
+    deploy:
+      resources:
+        limits:
+          cpus: '0.10'
 
   ## From here its all mlat
 

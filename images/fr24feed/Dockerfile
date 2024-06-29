@@ -1,0 +1,17 @@
+FROM debian:latest as build
+
+ENV VERSION=1.0.48-0
+# i386
+ENV TYPE=amd64
+
+WORKDIR /srv
+COPY ./download.sh ./
+RUN apt-get update -y && apt-get install wget ca-certificates -y
+RUN ./download.sh
+
+FROM debian:latest as main
+
+WORKDIR /srv
+RUN apt-get update -y && apt-get install ca-certificates -y
+COPY --from=build /srv/fr24feed/fr24feed /usr/local/bin
+CMD [ "fr24feed" ]

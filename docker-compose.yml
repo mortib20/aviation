@@ -9,6 +9,63 @@ services:
     volumes:
       - ./aviator.json:/app/aviator.json
 
+  dumpvdl2:
+    build: ./images/dumpvdl2/
+    #image: dumpvdl2:latest
+    container_name: dumpvdl2
+    restart : unless-stopped
+    network_mode: host
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    environment:
+      - TZ=$AV_TZ
+      - ID=${AV_STATION}-VDL2
+      - DEVICE=$AV_VDL2_DEVICE
+      - FEEDS=$AV_VDL2_FEEDS
+      - FREQS=$AV_VDL2_FREQS
+
+  dumphfdl:
+    build: ./images/dumphfdl
+    container_name: dumphfdl
+    restart: unless-stopped
+    network_mode: host
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    environment:
+      - TZ=$AV_TZ
+      - ID=${AV_STATION}-HFDL
+      - FREQS=$AV_HFDL_FREQS
+      - FEEDS=$AV_HFDL_FEEDS
+
+  acarsdec:
+    build: ./images/acarsdec
+    #image: acarsdec:latest
+    container_name: acarsdec
+    restart: unless-stopped
+    network_mode: host
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    environment:
+      - TZ=$AV_TZ
+      - ID=${AV_STATION}-ACARS
+      - DEVICE=$AV_ACARS_DEVICE
+      - FEEDS=$AV_ACARS_FEEDS
+      - FREQS=$AV_ACARS_FREQS
+
+  jaero:
+    build: ./images/jaero
+    container_name: jaero
+    restart: unless-stopped
+    network_mode: host
+    devices:
+      - /dev/bus/usb:/dev/bus/usb
+    environment:
+      - TZ=$AV_TZ
+      - PASSWORD=$AV_AERO_VNC_PASSWORD
+    volumes:
+      - ./data/jaero/config:/root/.config/Jontisoft/
+      - ./aero.ini:/srv/aero.ini
+
   readsb:
     build: images/readsb
     container_name: readsb

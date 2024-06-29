@@ -1,0 +1,3 @@
+[submodule "images/aviator"]
+	path = images/aviator
+	url = https://github.com/mortib20/aviator

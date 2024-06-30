@@ -1,4 +1,20 @@
 services:
+  caddy:
+    image: caddy:latest
+    container_name: caddy
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - DOMAIN=$AV_DOMAIN
+      - CADDY_MAIL=$AV_MAIL
+    volumes:
+      - ./data/caddy/caddy_data:/data
+      - ./data/caddy/caddy_config:/config
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ${AV_READSB_DIR}:/run/readsb/
+      - ${AV_TAR_DIR}:/run/tar1090/
+      - ${AV_TAR_WWWDIR}:/html
+
   aviator:
     build: ./images/aviator
     container_name: aviator

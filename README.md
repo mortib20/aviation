@@ -2,6 +2,8 @@
 ## Setup
 > ⚠️ Change files with **ch**.\*.*\ to your configuration!
 
+> configure aero.ini
+
 ### Init Submodule (Aviator)
     git submodule init
     git submodule update

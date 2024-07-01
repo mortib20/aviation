@@ -1,4 +1,5 @@
 # Aviation
+Sends ACARS from (dumphfdl, dumpvdl2, acarsdec, jaero) to Aviator and does some metrics and sends it into the 🌍.
 ## Setup
 > ⚠️ Change files with **ch**.\*.*\ to your configuration!
 
